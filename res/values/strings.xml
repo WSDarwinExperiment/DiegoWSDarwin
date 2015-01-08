@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">tumb1r</string>
+    <string name="browse_blog">Browse blog:</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_blog_list">BlogListActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="ok">OK</string>
+    <string name="title_activity_text">TextActivity</string>
+    <string name="title_activity_photo">PhotoActivity</string>
+
+</resources>

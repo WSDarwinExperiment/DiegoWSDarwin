@@ -16,15 +16,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class BlogListActivity extends ActionBarActivity {
+public class DetailFiveActivity extends ActionBarActivity {
+
+	private static final int MAX_POSTS = 5;
 
 	public static final String POST_OBJECT = "POST_OBJECT";
 
 	private String blog;
 	private ListView blogList;
 	private List<Post> posts;
-	private SimpleListAdapter postsViewAdapter;
+	private DetailedAdapter postsViewAdapter;
 	private TumblrManager tumblrManager;
+	private int curFirstPost = 0;
 
 	private Context mContext = this;
 
@@ -38,7 +41,7 @@ public class BlogListActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_blog_list);
+		setContentView(R.layout.activity_detail_five);
 
 		blogList = (ListView) findViewById(R.id.blogList);
 	}
@@ -46,10 +49,11 @@ public class BlogListActivity extends ActionBarActivity {
 	protected void onStart() {
 		super.onStart();
 		posts = new ArrayList<Post>();
-		postsViewAdapter = new SimpleListAdapter(this, posts);
+		postsViewAdapter = new DetailedAdapter(this, posts);
 		blogList.setAdapter(postsViewAdapter);
 
 		tumblrManager = new TumblrManager();
+		curFirstPost = 0;
 
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -92,7 +96,27 @@ public class BlogListActivity extends ActionBarActivity {
 		super.onResume();
 		// Refresh the list when visible
 		posts.clear();
-		Thread thread = new SearchThread();
+		Thread thread = new SearchThread(curFirstPost, MAX_POSTS);
+		thread.start();
+	}
+
+	public void next(View view) {
+		curFirstPost += MAX_POSTS;
+
+		posts.clear();
+		Thread thread = new SearchThread(curFirstPost, MAX_POSTS);
+		thread.start();
+	}
+
+	public void prev(View view) {
+		curFirstPost -= MAX_POSTS;
+
+		if (curFirstPost < 0) {
+			curFirstPost = 0;
+		}
+
+		posts.clear();
+		Thread thread = new SearchThread(curFirstPost, MAX_POSTS);
 		thread.start();
 	}
 
@@ -109,29 +133,32 @@ public class BlogListActivity extends ActionBarActivity {
 
 		switch (item.getItemId()) {
 		case R.id.action_list:
-			// Do nothing, already here
-			return true;
-		case R.id.action_detail5:
-			intent = new Intent(this, DetailFiveActivity.class);
+			intent = new Intent(this, BlogListActivity.class);
 			intent.putExtra(MainActivity.BLOG_NAME, blog);
 			startActivity(intent);
 
 			return true;
-
+		case R.id.action_detail5:
+			// Do nothing, we are here
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
 	class SearchThread extends Thread {
+		int offset;
+		int limit;
 
-		public SearchThread() {
+		public SearchThread(int offset, int limit) {
+			this.offset = offset;
+			this.limit = limit;
 		}
 
 		@Override
 		public void run() {
 			posts.clear();
-			posts.addAll(tumblrManager.getPosts(blog));
+			posts.addAll(tumblrManager.getPosts(blog, offset, limit));
 			runOnUiThread(doUpdateGUIList);
 		}
 	}

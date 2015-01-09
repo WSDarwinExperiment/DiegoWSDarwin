@@ -7,9 +7,9 @@ public class PhotoPost extends Post {
 	private String caption;
 	private List<String> photos;
 
-	public PhotoPost(long id, String type, long timestamp, String caption,
+	public PhotoPost(long id, String type, long timestamp, String state, String tags, String caption,
 			List<String> photos) {
-		super(id, type, timestamp);
+		super(id, type, timestamp, state, tags);
 		this.caption = caption;
 		this.photos = photos;
 	}
@@ -33,5 +33,9 @@ public class PhotoPost extends Post {
 	@Override
 	public String toString() {
 		return this.shortenString(caption) + "\n" + this.getDate() + "\n(" + this.getType() + ")";
+	}
+	
+	public String getHeader() {
+		return this.shortenString(caption);
 	}
 }

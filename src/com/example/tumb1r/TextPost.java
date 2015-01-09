@@ -5,8 +5,8 @@ public class TextPost extends Post {
 	private String title;
 	private String body;
 	
-	public TextPost(long id, String type, long timestamp, String title, String body) {
-		super(id, type, timestamp);
+	public TextPost(long id, String type, long timestamp, String state, String tags, String title, String body) {
+		super(id, type, timestamp, state, tags);
 		this.title = title;
 		this.body = body;
 	}
@@ -30,5 +30,9 @@ public class TextPost extends Post {
 	@Override
 	public String toString() {
 		return title + "\n" + this.getDate() + "\n(" + this.getType() + ")";
+	}
+	
+	public String getHeader() {
+		return this.shortenString(title);
 	}
 }

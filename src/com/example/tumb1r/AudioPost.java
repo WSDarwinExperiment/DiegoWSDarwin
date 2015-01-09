@@ -4,8 +4,8 @@ public class AudioPost extends Post {
 
 	private String caption;
 	
-	public AudioPost(long id, String type, long timestamp, String caption) {
-		super(id, type, timestamp);
+	public AudioPost(long id, String type, long timestamp, String state, String tags, String caption) {
+		super(id, type, timestamp, state, tags);
 		this.caption = caption;
 	}
 	
@@ -23,5 +23,9 @@ public class AudioPost extends Post {
 	@Override
 	public String toString() {
 		return caption + "(" + this.getType() + ")";
+	}
+	
+	public String getHeader() {
+		return caption;
 	}
 }

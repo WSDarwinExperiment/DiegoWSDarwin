@@ -4,8 +4,8 @@ public class VideoPost extends Post {
 
 	private String caption;
 	
-	public VideoPost(long id, String type, long timestamp, String caption) {
-		super(id, type, timestamp);
+	public VideoPost(long id, String type, long timestamp, String state, String tags, String caption) {
+		super(id, type, timestamp, state, tags);
 		this.caption = caption;
 	}
 	
@@ -23,5 +23,9 @@ public class VideoPost extends Post {
 	@Override
 	public String toString() {
 		return caption + "(" + this.getType() + ")";
+	}
+	
+	public String getHeader() {
+		return this.shortenString(caption);
 	}
 }

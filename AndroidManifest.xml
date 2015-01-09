@@ -48,6 +48,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.tumb1r.BlogListActivity" />
         </activity>
+        <activity
+            android:name=".DetailFiveActivity"
+            android:label="@string/title_activity_detail_five" >
+        </activity>
     </application>
 
 </manifest>

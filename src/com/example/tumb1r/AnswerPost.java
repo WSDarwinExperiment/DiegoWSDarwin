@@ -7,8 +7,8 @@ public class AnswerPost extends Post {
 	private String question;
 	private String answer;
 	
-	public AnswerPost(long id, String type, long timestamp, String askingName, String askingUrl, String question, String answer) {
-		super(id, type, timestamp);
+	public AnswerPost(long id, String type, long timestamp, String state, String tags, String askingName, String askingUrl, String question, String answer) {
+		super(id, type, timestamp, state, tags);
 		this.askingName = askingName;
 		this.askingUrl = askingUrl;
 		this.question = question;
@@ -66,5 +66,9 @@ public class AnswerPost extends Post {
 	@Override
 	public String toString() {
 		return question + "(" + this.getType() + ")";
+	}
+	
+	public String getHeader() {
+		return question;
 	}
 }

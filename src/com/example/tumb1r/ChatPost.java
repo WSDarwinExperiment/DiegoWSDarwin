@@ -5,8 +5,8 @@ public class ChatPost extends Post {
 	private String title;
 	private String body;
 	
-	public ChatPost(long id, String type, long timestamp, String title, String body) {
-		super(id, type, timestamp);
+	public ChatPost(long id, String type, long timestamp, String state, String tags, String title, String body) {
+		super(id, type, timestamp, state, tags);
 		this.title = title;
 		this.body = body;
 	}
@@ -30,5 +30,9 @@ public class ChatPost extends Post {
 	@Override
 	public String toString() {
 		return title + "(" + this.getType() + ")";
+	}
+	
+	public String getHeader() {
+		return title;
 	}
 }

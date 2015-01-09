@@ -9,5 +9,6 @@
     <string name="ok">OK</string>
     <string name="title_activity_text">TextActivity</string>
     <string name="title_activity_photo">PhotoActivity</string>
+    <string name="title_activity_detail_five">DetailFiveActivity</string>
 
 </resources>

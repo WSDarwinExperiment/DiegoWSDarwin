@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class BlogListActivity extends ActionBarActivity {
 
@@ -24,7 +23,7 @@ public class BlogListActivity extends ActionBarActivity {
 	private String blog;
 	private ListView blogList;
 	private List<Post> posts;
-	private ArrayAdapter<Post> postsViewAdapter;
+	private SimpleListAdapter postsViewAdapter;
 	private TumblrManager tumblrManager;
 
 	private Context mContext = this;
@@ -47,8 +46,7 @@ public class BlogListActivity extends ActionBarActivity {
 	protected void onStart() {
 		super.onStart();
 		posts = new ArrayList<Post>();
-		postsViewAdapter = new ArrayAdapter<Post>(this, R.layout.list_item,
-				posts);
+		postsViewAdapter = new SimpleListAdapter(this, posts);
 		blogList.setAdapter(postsViewAdapter);
 
 		tumblrManager = new TumblrManager();
@@ -107,14 +105,22 @@ public class BlogListActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		Intent intent;
+
+		switch (item.getItemId()) {
+		case R.id.action_list:
+			// Do nothing, already here
 			return true;
+		case R.id.action_detail5:
+			intent = new Intent(this, DetailFiveActivity.class);
+			intent.putExtra(MainActivity.BLOG_NAME, blog);
+			startActivity(intent);
+
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	class SearchThread extends Thread {

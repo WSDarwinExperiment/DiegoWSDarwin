@@ -5,8 +5,8 @@ public class QuotePost extends Post {
 	private String text;
 	private String source;
 	
-	public QuotePost(long id, String type, long timestamp, String text, String source) {
-		super(id, type, timestamp);
+	public QuotePost(long id, String type, long timestamp, String state, String tags, String text, String source) {
+		super(id, type, timestamp, state, tags);
 		this.text = text;
 		this.source = source;
 	}
@@ -30,5 +30,9 @@ public class QuotePost extends Post {
 	@Override
 	public String toString() {
 		return text + "(" + this.getType() + ")";
+	}
+	
+	public String getHeader() {
+		return this.shortenString(text);
 	}
 }

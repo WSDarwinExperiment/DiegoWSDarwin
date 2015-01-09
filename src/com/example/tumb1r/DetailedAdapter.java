@@ -1,6 +1,5 @@
 package com.example.tumb1r;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -10,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class DetailedAdapter extends ArrayAdapter<Post> {
-	  private final Context context;
-	  private final List<Post> values;
+import com.tumblr.api.PostsItemType;
 
-	  public DetailedAdapter(Context context, List<Post> values) {
+public class DetailedAdapter extends ArrayAdapter<PostsItemType> {
+	  private final Context context;
+	  private final List<PostsItemType> values;
+
+	  public DetailedAdapter(Context context, List<PostsItemType> values) {
 	    super(context, R.layout.detailed_list_item, values);
 	    this.context = context;
 	    this.values = values;
@@ -27,14 +28,14 @@ public class DetailedAdapter extends ArrayAdapter<Post> {
 	    
 	    View rowView = inflater.inflate(R.layout.detailed_list_item, parent, false);
 	    
-	    Post post = values.get(position);
+	    PostsItemType post = values.get(position);
 	    TextView titleView = (TextView) rowView.findViewById(R.id.textTitle);
 	    TextView dateView = (TextView) rowView.findViewById(R.id.textDate);
 	    TextView typeView = (TextView) rowView.findViewById(R.id.textType);
 	    TextView stateView = (TextView) rowView.findViewById(R.id.textState);
 	    TextView tagsView = (TextView) rowView.findViewById(R.id.textTags);
 	    
-	    titleView.setText(post.getHeader());
+	    //titleView.setText(post.getHeader());
 	    typeView.setText(post.getType());
 	    dateView.setText(post.getDate());
 	    stateView.setText("State: " + post.getState());

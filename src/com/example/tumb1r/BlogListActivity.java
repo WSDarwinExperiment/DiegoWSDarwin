@@ -13,18 +13,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.tumblr.api.PostsItemType;
+import com.tumblr.api.PostsListType;
+import com.tumblr.api.PostsResponseType;
+import com.tumblr.api.WSDTumblrManager;
 
 public class BlogListActivity extends ActionBarActivity {
 
 	public static final String POST_OBJECT = "POST_OBJECT";
+	public static final String POST_ID = "POST_ID";
 
 	private String blog;
 	private ListView blogList;
-	private List<Post> posts;
+	private List<PostsItemType> posts;
 	private SimpleListAdapter postsViewAdapter;
-	private TumblrManager tumblrManager;
 
 	private Context mContext = this;
 
@@ -45,11 +49,9 @@ public class BlogListActivity extends ActionBarActivity {
 
 	protected void onStart() {
 		super.onStart();
-		posts = new ArrayList<Post>();
+		posts = new ArrayList<PostsItemType>();
 		postsViewAdapter = new SimpleListAdapter(this, posts);
 		blogList.setAdapter(postsViewAdapter);
-
-		tumblrManager = new TumblrManager();
 
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -64,7 +66,7 @@ public class BlogListActivity extends ActionBarActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos,
 					long id) {
-				Post post = posts.get(pos);
+				PostsItemType post = posts.get(pos);
 
 				Intent intent = null;
 
@@ -74,7 +76,7 @@ public class BlogListActivity extends ActionBarActivity {
 					intent = new Intent(mContext, PhotoActivity.class);
 				} else if (post.getType().equals("link")) {
 					Intent browse = new Intent(Intent.ACTION_VIEW, Uri
-							.parse(((LinkPost) post).getUrl()));
+							.parse(post.getUrl()));
 
 					startActivity(browse);
 				}
@@ -131,7 +133,18 @@ public class BlogListActivity extends ActionBarActivity {
 		@Override
 		public void run() {
 			posts.clear();
-			posts.addAll(tumblrManager.getPosts(blog));
+			PostsListType response = WSDTumblrManager
+					.v2()
+					.blog()
+					.resource2(blog)
+					.posts()
+					.getAsJson(null, null, null, null, null,
+							PostsResponseType.class).getResponse().getPosts();
+
+			List<PostsItemType> postsList = response.getPostsItemTypeItem();
+
+			posts.addAll(postsList);
+
 			runOnUiThread(doUpdateGUIList);
 		}
 	}

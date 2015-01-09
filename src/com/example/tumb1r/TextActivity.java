@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.tumblr.api.PostsItemType;
 
 public class TextActivity extends Activity {
 
-	private TextPost post;
+	private PostsItemType post;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class TextActivity extends Activity {
 		if (intent != null) {
 			Bundle extras = intent.getExtras();
 			if (extras != null) {
-				post = (TextPost) intent
+				post = (PostsItemType) intent
 						.getSerializableExtra(BlogListActivity.POST_OBJECT);
 				
 				TextView title = (TextView) findViewById(R.id.textTitle);

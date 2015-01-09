@@ -8,17 +8,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.tumblr.api.PostsItemType;
 
 public class PhotoActivity extends Activity {
 
-	private PhotoPost post;
+	private PostsItemType post;
 	Bitmap bmp;
 	ImageView imageView;
 
@@ -38,7 +37,7 @@ public class PhotoActivity extends Activity {
 		if (intent != null) {
 			Bundle extras = intent.getExtras();
 			if (extras != null) {
-				post = (PhotoPost) intent
+				post = (PostsItemType) intent
 						.getSerializableExtra(BlogListActivity.POST_OBJECT);
 
 				TextView title = (TextView) findViewById(R.id.textTitle);
@@ -56,13 +55,13 @@ public class PhotoActivity extends Activity {
 				imageView.setLayoutParams(new LayoutParams(
 						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-				final String urlString = post.getPhotos().get(0);
+				final String urlString = post.getPhotos().getPhotosItemTypeItem().get(0).getOriginalSize().getUrl();
 
 				Thread t = new Thread() {
 					public void run() {
 						try {
 							URL url = new URL(urlString);
-							Log.i("XXX", post.getPhotos().get(0));
+							Log.i("XXX", "Photo " + post.getPhotos().getPhotosItemTypeItem().get(0).getOriginalSize().getUrl());
 							bmp = BitmapFactory.decodeStream(url
 									.openConnection().getInputStream());
 
